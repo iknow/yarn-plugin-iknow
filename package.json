@@ -1,0 +1,20 @@
+{
+  "name": "yarn-plugin-iknow",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "builder build plugin",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@tsconfig/node-lts": "^18.12.2",
+    "@tsconfig/strictest": "^2.0.1",
+    "@yarnpkg/builder": "3.2.7",
+    "@yarnpkg/cli": "^3.5.1",
+    "@yarnpkg/core": "^3.5.1",
+    "@yarnpkg/plugin-essentials": "^3.3.0",
+    "typescript": "^5.0.4"
+  },
+  "packageManager": "yarn@3.5.1"
+}
