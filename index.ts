@@ -87,6 +87,10 @@ class FixDupes extends BaseCommand {
 }
 
 const afterAllInstalled: Hooks['afterAllInstalled'] = async ({ configuration, cwd }, { report, cache }) => {
+  if (process.env['SKIP_DEDUPE_CHECK']) {
+    return;
+  }
+
   // we have to reload the project as there's something different about the
   // project given to us in the hook
   const { project } = await Project.find(configuration, cwd);
