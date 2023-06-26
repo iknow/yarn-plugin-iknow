@@ -1,4 +1,5 @@
 import { BaseCommand } from '@yarnpkg/cli';
+import { Option } from 'clipanion';
 import {
   Configuration,
   Descriptor,
@@ -76,12 +77,15 @@ class CheckDupes extends BaseCommand {
 class FixDupes extends BaseCommand {
   static override paths = [['fix-dupes']];
 
+  args = Option.Proxy()
+
   async execute() {
     const configuration = await Configuration.find(this.context.cwd, this.context.plugins);
     return await this.cli.run([
       'dedupe',
       '--strategy',
       configuration.get('dedupeStrategy'),
+      ...this.args,
     ]);
   }
 }
