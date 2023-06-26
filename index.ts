@@ -1,4 +1,5 @@
 import { BaseCommand } from '@yarnpkg/cli';
+import { Option } from 'clipanion';
 import {
   Configuration,
   Descriptor,
@@ -76,17 +77,24 @@ class CheckDupes extends BaseCommand {
 class FixDupes extends BaseCommand {
   static override paths = [['fix-dupes']];
 
+  args = Option.Proxy()
+
   async execute() {
     const configuration = await Configuration.find(this.context.cwd, this.context.plugins);
     return await this.cli.run([
       'dedupe',
       '--strategy',
       configuration.get('dedupeStrategy'),
+      ...this.args,
     ]);
   }
 }
 
 const afterAllInstalled: Hooks['afterAllInstalled'] = async ({ configuration, cwd }, { report, cache }) => {
+  if (process.env['SKIP_DEDUPE_CHECK']) {
+    return;
+  }
+
   // we have to reload the project as there's something different about the
   // project given to us in the hook
   const { project } = await Project.find(configuration, cwd);
